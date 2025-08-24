@@ -64,7 +64,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Profile()),
+              MaterialPageRoute(builder: (context) => const Profile()),
             );
           },
           child: const Icon(Icons.arrow_back_ios, color: Colors.black),

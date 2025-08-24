@@ -1,7 +1,7 @@
 import 'package:care_track/dr_details.dart';
 import 'package:care_track/our_doctors.dart';
 import 'package:care_track/profile.dart';
-import 'package:care_track/search.dart' as search_page;
+import 'package:care_track/search.dart';
 import 'package:care_track/user_appo.dart';
 import 'package:flutter/material.dart';
 import 'models/api_models.dart';
@@ -125,7 +125,7 @@ class HomePage extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const search_page.SearchPage()),
+                      MaterialPageRoute(builder: (context) => const SearchPage()),
                     );
                   },
                   child: Container(
@@ -312,7 +312,7 @@ class HomePage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Profile()),
+                  MaterialPageRoute(builder: (context) => const Profile()),
                 );
               },
             ),

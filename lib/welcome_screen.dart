@@ -55,7 +55,7 @@ class WelcomeScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => UserLogin()),
+                      MaterialPageRoute(builder: (context) => const UserLogin()),
                     );
                   },
                   child: Text(
@@ -76,7 +76,7 @@ class WelcomeScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => DoctorLogin()),
+                      MaterialPageRoute(builder: (context) => const DoctorLogin()),
                     );
                   },
                   child: Text(
