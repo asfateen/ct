@@ -49,7 +49,7 @@ class _BookAppointmentSummaryPageState extends State<BookAppointmentSummaryPage>
       final provider = Provider.of<AppProvider>(context, listen: false);
       
       // Book the appointment via API
-      final bookingResult = await provider.bookAppointment(widget.appointmentData);
+      final bookingResult = await provider.bookAppointmentWithData(widget.appointmentData);
       
       if (bookingResult != null) {
         // Navigate to booking confirmation with the booking result

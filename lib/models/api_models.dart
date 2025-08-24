@@ -154,6 +154,14 @@ class DoctorMainView {
     required this.role,
   });
 
+  // Convenience getters for backward compatibility
+  String get name => fullName;
+  String get specialization => doctorSpeciality;
+  double get pricePerHour => consultationFee;
+  String? get image => null; // Placeholder - add image field if needed
+  double get rating => 4.5; // Placeholder - add rating field if needed
+  double get distanceInKm => 5.0; // Placeholder - add distance field if needed
+
   factory DoctorMainView.fromJson(Map<String, dynamic> json) {
     return DoctorMainView(
       id: json['id'],

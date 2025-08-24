@@ -80,7 +80,7 @@ class HomePage extends StatelessWidget {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => DoctorDetailsScreen(doctor: doctor), // Pass the doctor object
+          builder: (context) => DrDetails(doctor: doctor), // Pass the doctor object
         ),
       );
     }
