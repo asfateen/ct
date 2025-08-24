@@ -1,6 +1,7 @@
 import 'package:care_track/dr_details.dart';
 import 'package:care_track/home_user.dart';
 import 'package:flutter/material.dart';
+import 'models/api_models.dart';
 
 // Doctor class to match the structure used in other screens
 class Doctor {
@@ -194,11 +195,31 @@ class OurDoctorsScreen extends StatelessWidget {
     );
   }
 
+  // Convert local Doctor to DoctorMainView for navigation
+  DoctorMainView _convertToApiDoctor(Doctor doctor) {
+    return DoctorMainView(
+      id: 0, // Placeholder
+      email: 'doctor@example.com', // Placeholder
+      fullName: doctor.name,
+      phoneNumber: '000-000-0000', // Placeholder
+      city: 'Cairo', // Placeholder
+      street: '123 Main St', // Placeholder
+      doctorSpeciality: doctor.specialty,
+      info: 'Experienced doctor', // Placeholder
+      patientNumber: 50, // Placeholder
+      startTime: LocalTime(hour: 9, minute: 0),
+      endTime: LocalTime(hour: 17, minute: 0),
+      consultationFee: double.parse(doctor.price.replaceAll(RegExp(r'[^\d.]'), '')),
+      availableDays: ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY'],
+      role: 'DOCTOR',
+    );
+  }
+
   void _onDoctorTapped(BuildContext context, Doctor doctor) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => DrDetails(doctor: doctor),
+        builder: (context) => DrDetails(doctor: _convertToApiDoctor(doctor)),
       ),
     );
   }

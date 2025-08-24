@@ -4,6 +4,7 @@ import 'package:care_track/profile.dart';
 import 'package:care_track/search.dart';
 import 'package:care_track/user_appo.dart';
 import 'package:flutter/material.dart';
+import 'models/api_models.dart';
 
 void main() {
   runApp(const HomeUser());
@@ -71,6 +72,26 @@ class HomePage extends StatelessWidget {
     ),
   ];
 
+  // Convert local Doctor to DoctorMainView for navigation
+  DoctorMainView _convertToApiDoctor(Doctor doctor) {
+    return DoctorMainView(
+      id: 0, // Placeholder
+      email: 'doctor@example.com', // Placeholder
+      fullName: doctor.name,
+      phoneNumber: '000-000-0000', // Placeholder
+      city: 'Cairo', // Placeholder
+      street: '123 Main St', // Placeholder
+      doctorSpeciality: doctor.specialization,
+      info: 'Experienced doctor', // Placeholder
+      patientNumber: 50, // Placeholder
+      startTime: LocalTime(hour: 9, minute: 0),
+      endTime: LocalTime(hour: 17, minute: 0),
+      consultationFee: doctor.fee.toDouble(),
+      availableDays: ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY'],
+      role: 'DOCTOR',
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -80,7 +101,7 @@ class HomePage extends StatelessWidget {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => DrDetails(doctor: doctor), // Pass the doctor object
+          builder: (context) => DrDetails(doctor: _convertToApiDoctor(doctor)), // Pass the converted doctor object
         ),
       );
     }
@@ -104,7 +125,7 @@ class HomePage extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Search()),
+                      MaterialPageRoute(builder: (context) => const Search()),
                     );
                   },
                   child: Container(

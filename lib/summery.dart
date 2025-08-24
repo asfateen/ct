@@ -66,7 +66,7 @@ class _BookAppointmentSummaryPageState extends State<BookAppointmentSummaryPage>
                 specialization: widget.doctor.specialization,
                 rating: widget.doctor.rating,
                 distance: "${widget.doctor.distanceInKm}km away",
-                price: widget.doctor.pricePerHour,
+                price: widget.doctor.pricePerHour.toInt(),
                 status: 'confirmed',
               ),
             ),
