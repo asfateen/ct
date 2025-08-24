@@ -11,7 +11,7 @@ void main() {
 }
 
 class DoctorSignup extends StatefulWidget {
-  const DoctorSignup({Key? key}) : super(key: key);
+  const DoctorSignup({super.key});
 
   @override
   State<DoctorSignup> createState() => _DoctorSignupState();
