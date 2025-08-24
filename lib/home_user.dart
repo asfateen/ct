@@ -1,7 +1,7 @@
 import 'package:care_track/dr_details.dart';
 import 'package:care_track/our_doctors.dart';
 import 'package:care_track/profile.dart';
-import 'package:care_track/search.dart';
+import 'package:care_track/search.dart' as search_page;
 import 'package:care_track/user_appo.dart';
 import 'package:flutter/material.dart';
 import 'models/api_models.dart';
@@ -73,7 +73,7 @@ class HomePage extends StatelessWidget {
   ];
 
   // Convert local Doctor to DoctorMainView for navigation
-  DoctorMainView _convertToApiDoctor(Doctor doctor) {
+  static DoctorMainView _convertToApiDoctor(Doctor doctor) {
     return DoctorMainView(
       id: 0, // Placeholder
       email: 'doctor@example.com', // Placeholder
@@ -101,7 +101,7 @@ class HomePage extends StatelessWidget {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => DrDetails(doctor: _convertToApiDoctor(doctor)), // Pass the converted doctor object
+          builder: (context) => DrDetails(doctor: HomePage._convertToApiDoctor(doctor)), // Pass the converted doctor object
         ),
       );
     }
@@ -125,7 +125,7 @@ class HomePage extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Search()),
+                      MaterialPageRoute(builder: (context) => search_page.Search()),
                     );
                   },
                   child: Container(

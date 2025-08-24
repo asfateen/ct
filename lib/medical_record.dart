@@ -87,7 +87,7 @@ class FakeMedicalRecordRepository {
 
 class MedicalRecordCubit extends Cubit<List<MedicalRecord>> {
   final FakeMedicalRecordRepository repository;
-  MedicalRecordCubit(this.repository) : super([]);
+  MedicalRecordCubit(this.repository) : super(const []);
 
   Future<void> loadRecords() async {
     final records = await repository.getMedicalRecords();
