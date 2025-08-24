@@ -289,11 +289,11 @@ class AppProvider with ChangeNotifier {
     }
   }
 
-  // Book appointment
-  Future<Map<String, dynamic>?> bookAppointment(Map<String, dynamic> appointmentData) async {
+  // Book appointment with flexible data
+  Future<Map<String, dynamic>?> bookAppointmentWithData(Map<String, dynamic> appointmentData) async {
     _setLoading(true);
     try {
-      final response = await _apiService.bookAppointment(appointmentData);
+      final response = await _apiService.bookAppointmentWithData(appointmentData);
       notifyListeners();
       return response;
     } catch (e) {

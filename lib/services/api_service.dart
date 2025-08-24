@@ -375,7 +375,7 @@ class ApiService {
   }
 
   // Book appointment with flexible data
-  Future<Map<String, dynamic>> bookAppointment(Map<String, dynamic> appointmentData) async {
+  Future<Map<String, dynamic>> bookAppointmentWithData(Map<String, dynamic> appointmentData) async {
     final response = await http.post(
       Uri.parse('$baseUrl/appointments'),
       headers: _headers,
