@@ -8,7 +8,12 @@ import 'package:provider/provider.dart';
 import 'providers/app_provider.dart';
 
 void main() {
-  runApp(const Profile());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => AppProvider()..initializeAuth(),
+      child: const Profile(),
+    ),
+  );
 }
 
 class Profile extends StatelessWidget {

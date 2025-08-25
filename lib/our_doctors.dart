@@ -6,7 +6,12 @@ import 'models/api_models.dart';
 import 'providers/app_provider.dart';
 
 void main() {
-  runApp(OurDoctors());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => AppProvider()..initializeAuth(),
+      child: OurDoctors(),
+    ),
+  );
 }
 
 class OurDoctors extends StatefulWidget {

@@ -204,7 +204,12 @@ class MedicalRecordPage extends StatelessWidget {
 }
 
 void main() {
-  runApp(const MedicalRecordApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => AppProvider()..initializeAuth(),
+      child: const MedicalRecordApp(),
+    ),
+  );
 }
 
 class MedicalRecordApp extends StatelessWidget {

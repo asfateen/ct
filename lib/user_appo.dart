@@ -5,7 +5,15 @@ import 'providers/app_provider.dart';
 import 'models/api_models.dart';
 
 void main() {
-  runApp(UserAppo());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => AppProvider()..initializeAuth(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: UserAppo(),
+      ),
+    ),
+  );
 }
 
 class UserAppo extends StatefulWidget {

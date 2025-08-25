@@ -6,8 +6,12 @@ import 'package:provider/provider.dart';
 import 'providers/app_provider.dart';
 
 void main() {
-
-  runApp(DrAppo());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => AppProvider()..initializeAuth(),
+      child: DrAppo(),
+    ),
+  );
 }
 
 class DrAppo extends StatelessWidget {
