@@ -19,7 +19,11 @@ class DrAppo extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
+      home: Consumer<AppProvider>(
+        builder: (context, appProvider, child) {
+          final currentDoctor = appProvider.currentDoctor;
+          
+          return Scaffold(
         appBar: AppBar(
           toolbarHeight: 100,
           centerTitle: true,
@@ -83,16 +87,16 @@ class DrAppo extends StatelessWidget {
                             const SizedBox(width: 12),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
+                              children: [
                                 Text(
-                                  "Omar Ahmed",
+                                  currentDoctor?.fullName ?? "Doctor",
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 Text(
-                                  "omarahmed14@gmail.com",
+                                  currentDoctor?.email ?? "doctor@example.com",
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.black54,
@@ -160,8 +164,8 @@ class DrAppo extends StatelessWidget {
                 ],
               ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

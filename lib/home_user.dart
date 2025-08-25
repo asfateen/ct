@@ -160,8 +160,8 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                             const SizedBox(height: 5),
-                            const Text(
-                              'Omar Ahmed',
+                            Text(
+                              Provider.of<AppProvider>(context, listen: false).currentUser?.fullName ?? 'User',
                               style: TextStyle(
                                 fontSize: 20,
                                 color: Color(0xFF2C3E50),

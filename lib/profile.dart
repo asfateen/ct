@@ -180,18 +180,26 @@ class ProfileScreen extends StatelessWidget {
               child: Column(
                 children: [
                   const SizedBox(height: 10),
-                  const Text(
-                    'Omar Ahmed',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87,
-                    ),
+                  Consumer<AppProvider>(
+                    builder: (context, appProvider, child) {
+                      return Text(
+                        appProvider.currentUser?.fullName ?? 'User',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
+                      );
+                    },
                   ),
                   const SizedBox(height: 8),
-                  Text(
-                    'omarahmed14@gmail.com',
-                    style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                  Consumer<AppProvider>(
+                    builder: (context, appProvider, child) {
+                      return Text(
+                        appProvider.currentUser?.email ?? 'user@example.com',
+                        style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                      );
+                    },
                   ),
                   const SizedBox(height: 25),
                   Row(
