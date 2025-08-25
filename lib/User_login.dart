@@ -59,7 +59,7 @@ class _UserLoginState extends State<UserLogin> {
         } else if (appProvider.userType == 'doctor') {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const HomeDr()),
+            MaterialPageRoute(builder: (context) => HomeDr()),
           );
         }
       } else if (mounted) {

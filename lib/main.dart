@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
     if (appProvider.userType == 'patient') {
       return const HomePage(); // The actual home page from home_user.dart
     } else if (appProvider.userType == 'doctor') {
-      return const HomeDr();
+      return HomeDr();
     } else {
       return const WelcomeScreen();
     }
