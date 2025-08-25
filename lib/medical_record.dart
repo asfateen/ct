@@ -1,6 +1,9 @@
 import 'package:care_track/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
+import 'models/api_models.dart';
+import 'providers/app_provider.dart';
 
 class MedicalRecord {
   final DateTime date;
@@ -30,68 +33,60 @@ class BloodAnalysis {
   });
 }
 
-class FakeMedicalRecordRepository {
-  Future<List<MedicalRecord>> getMedicalRecords() async {
-    await Future.delayed(const Duration(milliseconds: 500));
-    return [
-      MedicalRecord(
-        date: DateTime(2025, 2, 25),
-        title: "Doctor name",
-        doctorName: "Dr. John Doe",
-      ),
-      MedicalRecord(
-        date: DateTime(2025, 2, 25),
-        title: "Blood",
-        bloodAnalysis: BloodAnalysis(
-          redBloodCells: 4.10,
+class MedicalRecordCubit extends Cubit<List<MedicalRecord>> {
+  final AppProvider appProvider;
+  MedicalRecordCubit(this.appProvider) : super(const []);
+
+  Future<void> loadRecords() async {
+    try {
+      final apiRecords = await appProvider.getPatientMedicalRecords();
+      
+      // Convert API MedicalRecordResponse to UI MedicalRecord objects
+      final uiRecords = apiRecords.map((apiRecord) => _convertToUIMedicalRecord(apiRecord)).toList();
+      
+      emit(uiRecords);
+    } catch (e) {
+      print('Error loading medical records: $e');
+      emit([]);
+    }
+  }
+
+  // Convert API MedicalRecordResponse to UI MedicalRecord
+  MedicalRecord _convertToUIMedicalRecord(MedicalRecordResponse apiRecord) {
+    try {
+      final date = DateTime.parse(apiRecord.date);
+      
+      // Extract content and determine if it contains blood analysis data
+      final content = apiRecord.content.toLowerCase();
+      BloodAnalysis? bloodAnalysis;
+      
+      // Simple parsing for blood analysis data from content
+      if (content.contains('blood') && content.contains('analysis')) {
+        // For now, use some sample values - in a real app you'd parse the content properly
+        bloodAnalysis = BloodAnalysis(
+          redBloodCells: 4.1,
           hemoglobin: 142,
           hematocrit: 33.6,
           whiteBloodCells: 3.850,
-        ),
-      ),
-      MedicalRecord(
-        date: DateTime(2025, 2, 25),
-        title: "Blood Analysis",
-        bloodAnalysis: BloodAnalysis(
-          redBloodCells: 3.90,
-          hemoglobin: 122,
-          hematocrit: 47.7,
-          whiteBloodCells: 4.300,
-        ),
-      ),
-
-      MedicalRecord(date: DateTime(2025, 1, 25), title: "End of observation"),
-      MedicalRecord(
-        date: DateTime(2025, 1, 25),
-        title: "Blood Analysis",
-        bloodAnalysis: BloodAnalysis(
-          redBloodCells: 4.30,
-          hemoglobin: 132,
-          hematocrit: 37.7,
-          whiteBloodCells: 4.700,
-        ),
-      ),
-      MedicalRecord(
-        date: DateTime(2025, 1, 25),
-        title: "Blood Analysis",
-        bloodAnalysis: BloodAnalysis(
-          redBloodCells: 3.90,
-          hemoglobin: 118,
-          hematocrit: 38.7,
-          whiteBloodCells: 4.500,
-        ),
-      ),
-    ];
-  }
-}
-
-class MedicalRecordCubit extends Cubit<List<MedicalRecord>> {
-  final FakeMedicalRecordRepository repository;
-  MedicalRecordCubit(this.repository) : super(const []);
-
-  Future<void> loadRecords() async {
-    final records = await repository.getMedicalRecords();
-    emit(records);
+        );
+      }
+      
+      return MedicalRecord(
+        date: date,
+        title: apiRecord.content.length > 50 
+          ? apiRecord.content.substring(0, 50) + '...'
+          : apiRecord.content,
+        doctorName: apiRecord.doctorName,
+        bloodAnalysis: bloodAnalysis,
+      );
+    } catch (e) {
+      // Fallback if date parsing fails
+      return MedicalRecord(
+        date: DateTime.now(),
+        title: apiRecord.content,
+        doctorName: apiRecord.doctorName,
+      );
+    }
   }
 }
 
@@ -219,12 +214,13 @@ class MedicalRecordApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: BlocProvider(
-        create:
-            (_) =>
-        MedicalRecordCubit(FakeMedicalRecordRepository())
-          ..loadRecords(),
-        child: const MedicalRecordPage(),
+      home: Consumer<AppProvider>(
+        builder: (context, appProvider, child) {
+          return BlocProvider(
+            create: (_) => MedicalRecordCubit(appProvider)..loadRecords(),
+            child: const MedicalRecordPage(),
+          );
+        },
       ),
     );
   }

@@ -4,7 +4,9 @@ import 'package:care_track/profile.dart';
 import 'package:care_track/search.dart' as search_lib;
 import 'package:care_track/user_appo.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'models/api_models.dart';
+import 'providers/app_provider.dart';
 
 void main() {
   runApp(const HomeUser());
@@ -22,74 +24,41 @@ class HomeUser extends StatelessWidget {
   }
 }
 
-class Doctor {
-  final String name;
-  final String specialization;
-  final double rating;
-  final String distance;
-  final int fee;
-
-  const Doctor({
-    required this.name,
-    required this.specialization,
-    required this.rating,
-    required this.distance,
-    required this.fee,
-  });
-}
-
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
-  final List<Doctor> doctors = const [
-    Doctor(
-      name: 'Dr. Rishi',
-      specialization: 'Cardiologist',
-      rating: 4.7,
-      distance: '800m away',
-      fee: 500,
-    ),
-    Doctor(
-      name: 'Dr. Vaamana',
-      specialization: 'Dentist',
-      rating: 4.7,
-      distance: '800m away',
-      fee: 600,
-    ),
-    Doctor(
-      name: 'Dr. Nallarasi',
-      specialization: 'Cardiologist',
-      rating: 4.7,
-      distance: '800m away',
-      fee: 700,
-    ),
-    Doctor(
-      name: 'Dr. LEE',
-      specialization: 'General Physician',
-      rating: 4.7,
-      distance: '800m away',
-      fee: 750,
-    ),
-  ];
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
 
-  // Convert local Doctor to DoctorMainView for navigation
-  static DoctorMainView _convertToApiDoctor(Doctor doctor) {
-    return DoctorMainView(
-      id: 0, // Placeholder
-      email: 'doctor@example.com', // Placeholder
-      fullName: doctor.name,
-      phoneNumber: '000-000-0000', // Placeholder
-      city: 'Cairo', // Placeholder
-      street: '123 Main St', // Placeholder
-      doctorSpeciality: doctor.specialization,
-      info: 'Experienced doctor', // Placeholder
-      patientNumber: 50, // Placeholder
-      startTime: LocalTime(hour: 9, minute: 0),
-      endTime: LocalTime(hour: 17, minute: 0),
-      consultationFee: doctor.fee.toDouble(),
-      availableDays: ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY'],
-      role: 'DOCTOR',
-    );
+class _HomePageState extends State<HomePage> {
+  List<DoctorMainView> doctors = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDoctors();
+  }
+
+  Future<void> _loadDoctors() async {
+    try {
+      final provider = Provider.of<AppProvider>(context, listen: false);
+      final loadedDoctors = await provider.searchDoctors(
+        city: 'CAIRO', 
+        speciality: 'CARDIOLOGY',
+        size: 10,
+      );
+      setState(() {
+        doctors = loadedDoctors;
+        isLoading = false;
+      });
+    } catch (e) {
+      print('Error loading doctors: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   @override
@@ -97,11 +66,11 @@ class HomePage extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     // Define the function inside build method to access context
-    void _onDoctorTapped(Doctor doctor) {
+    void _onDoctorTapped(DoctorMainView doctor) {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => DrDetails(doctor: HomePage._convertToApiDoctor(doctor)), // Pass the converted doctor object
+          builder: (context) => DrDetails(doctor: doctor), // Pass the doctor object directly
         ),
       );
     }
@@ -261,17 +230,26 @@ class HomePage extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              itemCount: doctors.length,
-              itemBuilder: (context, index) {
-                final doctor = doctors[index];
-                return DoctorCard(
-                  doctor: doctor,
-                  onTap: () => _onDoctorTapped(doctor),
-                );
-              },
-            ),
+            child: isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : doctors.isEmpty
+                    ? const Center(
+                        child: Text(
+                          'No doctors found',
+                          style: TextStyle(fontSize: 16, color: Colors.grey),
+                        ),
+                      )
+                    : ListView.builder(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        itemCount: doctors.length,
+                        itemBuilder: (context, index) {
+                          final doctor = doctors[index];
+                          return DoctorCard(
+                            doctor: doctor,
+                            onTap: () => _onDoctorTapped(doctor),
+                          );
+                        },
+                      ),
           ),
         ],
       ),
@@ -324,7 +302,7 @@ class HomePage extends StatelessWidget {
 }
 
 class DoctorCard extends StatelessWidget {
-  final Doctor doctor;
+  final DoctorMainView doctor;
   final VoidCallback onTap;
 
   const DoctorCard({required this.doctor, required this.onTap});
@@ -343,12 +321,12 @@ class DoctorCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                doctor.name,
+                doctor.fullName,
                 style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               Text(
-                doctor.specialization,
+                doctor.doctorSpeciality,
                 style: TextStyle(color: Colors.grey[600]),
               ),
               const SizedBox(height: 12),
@@ -360,10 +338,10 @@ class DoctorCard extends StatelessWidget {
                   const SizedBox(width: 16),
                   Icon(Icons.location_on, color: Colors.grey, size: 18),
                   const SizedBox(width: 4),
-                  Text(doctor.distance),
+                  Text('${doctor.city} - ${doctor.distanceInKm.toStringAsFixed(1)}km'),
                   const Spacer(),
                   Text(
-                    '${doctor.fee} LE',
+                    '${doctor.consultationFee.toInt()} LE',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
