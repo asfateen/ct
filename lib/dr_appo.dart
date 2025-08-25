@@ -2,6 +2,8 @@ import 'package:care_track/home_dr.dart';
 import 'package:care_track/medical_record.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
+import 'providers/app_provider.dart';
 
 void main() {
 
