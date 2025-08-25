@@ -1,4 +1,3 @@
-import 'package:care_track/home_user.dart';
 import 'package:care_track/medical_record.dart';
 import 'package:care_track/personal_info.dart';
 import 'package:care_track/user_appo.dart';
@@ -76,10 +75,7 @@ class ProfileScreen extends StatelessWidget {
         backgroundColor: const Color(0xFF247CFF),
         leading: GestureDetector(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HomeUser()),
-            );
+            Navigator.pop(context);
           },
 
           child: const Icon(Icons.arrow_back_ios, color: Colors.white),
@@ -97,10 +93,7 @@ class ProfileScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.settings, color: Colors.white),
             onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const HomeUser()),
-              );
+              Navigator.pop(context);
             },
           ),
         ],
@@ -358,10 +351,7 @@ class ProfileScreen extends StatelessWidget {
                     size: 28,
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const HomeUser()),
-                    );
+                    Navigator.pop(context);
                   },
                 ),
                 IconButton(

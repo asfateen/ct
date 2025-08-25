@@ -1,4 +1,3 @@
-import 'package:care_track/home_user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/app_provider.dart';
@@ -60,10 +59,7 @@ class _UserAppoState extends State<UserAppo> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomeUser()),
-              );
+              Navigator.pop(context);
             },
           ),
           title: const Text(

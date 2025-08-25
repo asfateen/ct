@@ -1,11 +1,4 @@
-import 'pavoid main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => AppProvider()..initializeAuth(),
-      child: const HomeUserApp(),
-    ),
-  );
-}ge:care_track/dr_details.dart';
+import 'package:care_track/dr_details.dart';
 import 'package:care_track/our_doctors.dart';
 import 'package:care_track/profile.dart';
 import 'package:care_track/search.dart' as search_lib;
@@ -16,7 +9,12 @@ import 'models/api_models.dart';
 import 'providers/app_provider.dart';
 
 void main() {
-  runApp(const HomeUser());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => AppProvider()..initializeAuth(),
+      child: const HomeUser(),
+    ),
+  );
 }
 
 class HomeUser extends StatelessWidget {

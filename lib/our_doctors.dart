@@ -1,5 +1,4 @@
 import 'package:care_track/dr_details.dart';
-import 'package:care_track/home_user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'models/api_models.dart';
@@ -76,15 +75,8 @@ class OurDoctorsScreen extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            // Use Navigator.pop() instead of push to go back properly
-            if (Navigator.canPop(context)) {
-              Navigator.pop(context);
-            } else {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => HomeUser()),
-              );
-            }
+            // Use Navigator.pop() to go back
+            Navigator.pop(context);
           },
         ),
         title: const Text(

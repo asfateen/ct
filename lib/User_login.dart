@@ -1,6 +1,4 @@
 //user login
-import 'package:care_track/home_user.dart';
-import 'package:care_track/user_signup.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/app_provider.dart';
@@ -41,9 +39,9 @@ class _UserLoginState extends State<UserLogin> {
       );
 
       if (success && mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const HomeUser()),
+        // For now, show a success message instead of navigation to avoid circular imports
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Login successful! Please restart the app.')),
         );
       } else if (mounted) {
         _showError('Login failed', 'Invalid email or password');

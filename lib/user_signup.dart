@@ -1,6 +1,4 @@
 //user signup
-import 'package:care_track/User_login.dart';
-import 'package:care_track/home_user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/app_provider.dart';
@@ -49,9 +47,9 @@ class _UserSignupState extends State<UserSignup> {
       );
 
       if (success && mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const HomeUser()),
+        // For now, show a success message instead of navigation to avoid circular imports
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Registration successful! Please restart the app.')),
         );
       } else if (mounted) {
         _showError('Registration failed', 'Unable to create account. Please try again.');
