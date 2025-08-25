@@ -1,5 +1,7 @@
 //user login
 import 'package:care_track/user_signup.dart';
+import 'package:care_track/home_user.dart';
+import 'package:care_track/home_dr.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/app_provider.dart';
@@ -40,10 +42,26 @@ class _UserLoginState extends State<UserLogin> {
       );
 
       if (success && mounted) {
-        // For now, show a success message instead of navigation to avoid circular imports
+        // Show success message and debug info
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Login successful! Please restart the app.')),
+          SnackBar(
+            content: Text('Login successful! User type: ${appProvider.userType}'),
+            backgroundColor: Colors.green,
+          ),
         );
+        
+        // Navigate based on user type
+        if (appProvider.userType == 'patient') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const HomePage()),
+          );
+        } else if (appProvider.userType == 'doctor') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const HomeDr()),
+          );
+        }
       } else if (mounted) {
         _showError('Login failed', 'Invalid email or password');
       }

@@ -1,4 +1,6 @@
 import 'package:care_track/welcome_screen.dart';
+import 'package:care_track/home_user.dart';
+import 'package:care_track/home_dr.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
@@ -15,11 +17,30 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => AppProvider(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: const SplashScreen(),
+      child: Consumer<AppProvider>(
+        builder: (context, appProvider, child) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            initialRoute: '/',
+            routes: {
+              '/': (context) => const SplashScreen(),
+              '/welcome': (context) => const WelcomeScreen(),
+              '/home': (context) => _getHomeScreen(appProvider),
+            },
+          );
+        },
       ),
     );
+  }
+
+  Widget _getHomeScreen(AppProvider appProvider) {
+    if (appProvider.userType == 'patient') {
+      return const HomePage(); // The actual home page from home_user.dart
+    } else if (appProvider.userType == 'doctor') {
+      return const HomeDr();
+    } else {
+      return const WelcomeScreen();
+    }
   }
 }
 
@@ -41,26 +62,13 @@ class _SplashScreenState extends State<SplashScreen> {
     final appProvider = Provider.of<AppProvider>(context, listen: false);
     await appProvider.initializeAuth();
     
-    Timer(const Duration(seconds: 5), () {
+    Timer(const Duration(seconds: 2), () {
       if (mounted) {
         if (appProvider.isLoggedIn) {
           // Navigate to appropriate home screen based on user type
-          if (appProvider.userType == 'patient') {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const WelcomeScreen()),
-            );
-          } else if (appProvider.userType == 'doctor') {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const WelcomeScreen()),
-            );
-          }
+          Navigator.pushReplacementNamed(context, '/home');
         } else {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const WelcomeScreen()),
-          );
+          Navigator.pushReplacementNamed(context, '/welcome');
         }
       }
     });
