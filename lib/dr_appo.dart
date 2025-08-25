@@ -105,7 +105,9 @@ class DrAppo extends StatelessWidget {
                           onPressed: () { Navigator.push(
                           context,  MaterialPageRoute(
                             builder: (context) => BlocProvider(
-                              create: (_) => MedicalRecordCubit(FakeMedicalRecordRepository())..loadRecords(),
+                              create: (_) => MedicalRecordCubit(
+                                Provider.of<AppProvider>(context, listen: false)
+                              )..loadRecords(),
                               child: MedicalRecordPage(previousPage: DrAppo()), // Replace with your actual doctor screen
                             ),
                           ),

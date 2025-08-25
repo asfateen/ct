@@ -233,7 +233,9 @@ class ProfileScreen extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => BlocProvider(
-                                  create: (_) => MedicalRecordCubit(FakeMedicalRecordRepository())..loadRecords(),
+                                  create: (_) => MedicalRecordCubit(
+                                    Provider.of<AppProvider>(context, listen: false)
+                                  )..loadRecords(),
                                   child: MedicalRecordPage(previousPage: Profile()),
                                 ),
                               ),
