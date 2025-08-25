@@ -47,14 +47,11 @@ class DrAppo extends StatelessWidget {
 
           elevation: 0,
         ),
-        body: Form(
-          child: Form(
-            key: _formKey,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(20),

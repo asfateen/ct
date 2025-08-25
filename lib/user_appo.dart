@@ -100,7 +100,7 @@ class _UserAppoState extends State<UserAppo> {
                               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              appointment.doctorSpeciality ?? "Specialist",
+                              appointment.doctorSpecialization ?? "Specialist",
                               style: TextStyle(fontSize: 14, color: Colors.black54),
                             ),
                             const SizedBox(height: 8),
@@ -116,7 +116,7 @@ class _UserAppoState extends State<UserAppo> {
                                     borderRadius: BorderRadius.circular(6),
                                   ),
                                   child: Text(
-                                    appointment.status ?? "Scheduled",
+                                    "Scheduled", // AppointmentResponse doesn't have status field, so using default
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: Colors.blue[700],
@@ -130,16 +130,14 @@ class _UserAppoState extends State<UserAppo> {
                               "Date: ${_formatDate(appointment.date)}",
                               style: TextStyle(fontSize: 14, color: Colors.black87),
                             ),
-                            if (appointment.consultationFee != null) ...[
-                              const SizedBox(height: 8),
-                              Text(
-                                "${appointment.consultationFee!.toInt()} LE",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            const SizedBox(height: 8),
+                            Text(
+                              "${appointment.doctorConsultationFee.toInt()} LE",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
                               ),
-                            ],
+                            ),
                             const SizedBox(height: 12),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
