@@ -105,17 +105,19 @@ class DrAppo extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         ElevatedButton(
-                          onPressed: () { Navigator.push(
-                          context,  MaterialPageRoute(
-                            builder: (context) => BlocProvider(
-                              create: (_) => MedicalRecordCubit(
-                                Provider.of<AppProvider>(context, listen: false)
-                              )..loadRecords(),
-                              child: MedicalRecordPage(previousPage: DrAppo()), // Replace with your actual doctor screen
-                            ),
-                          ),
-
-                        );},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => BlocProvider(
+                                  create: (_) => MedicalRecordCubit(
+                                    Provider.of<AppProvider>(context, listen: false)
+                                  )..loadRecords(),
+                                  child: MedicalRecordPage(previousPage: DrAppo()),
+                                ),
+                              ),
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue,
                             shape: RoundedRectangleBorder(
