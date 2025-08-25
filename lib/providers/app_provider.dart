@@ -62,6 +62,9 @@ class AppProvider with ChangeNotifier {
         _currentDoctor = response.doctor;
         _userType = 'doctor';
         await AuthService.saveLoginData(response.token, doctor: response.doctor);
+      } else {
+        // Token-only response, determine user type and fetch profile
+        await _fetchUserProfile(response.token);
       }
       
       notifyListeners();
@@ -71,6 +74,35 @@ class AppProvider with ChangeNotifier {
       return false;
     } finally {
       _setLoading(false);
+    }
+  }
+
+  Future<void> _fetchUserProfile(String token) async {
+    try {
+      // Try fetching patient profile first
+      try {
+        _currentUser = await _apiService.getPatient();
+        _userType = 'patient';
+        await AuthService.saveLoginData(token, user: _currentUser);
+        return;
+      } catch (e) {
+        // If patient fetch fails, try doctor
+        try {
+          _currentDoctor = await _apiService.getDoctor();
+          _userType = 'doctor';
+          await AuthService.saveLoginData(token, doctor: _currentDoctor);
+          return;
+        } catch (e2) {
+          // Both failed, default to patient
+          _userType = 'patient';
+          await AuthService.saveLoginData(token);
+        }
+      }
+    } catch (e) {
+      print('Error fetching user profile: $e');
+      // Default to patient if we can't determine user type
+      _userType = 'patient';
+      await AuthService.saveLoginData(token);
     }
   }
 

@@ -42,28 +42,12 @@ class _UserLoginState extends State<UserLogin> {
       );
 
       if (success && mounted) {
-        // Show success message and debug info
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Login successful! User type: ${appProvider.userType}'),
-            backgroundColor: Colors.green,
-          ),
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomePage()),
         );
-        
-        // Navigate based on user type
-        if (appProvider.userType == 'patient') {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const HomePage()),
-          );
-        } else if (appProvider.userType == 'doctor') {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => HomeDr()),
-          );
-        }
       } else if (mounted) {
-        _showError('Login failed', 'Invalid email or password');
+        _showError('Login failed', 'Please check your credentials and internet connection');
       }
     } catch (e) {
       if (mounted) {

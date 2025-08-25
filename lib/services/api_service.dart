@@ -32,7 +32,17 @@ class ApiService {
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      return LoginResponse.fromJson(data);
+      
+      // Handle both token-only response and full LoginResponse object
+      if (data is String) {
+        // API returned just a token string
+        return LoginResponse(token: data, user: null, doctor: null);
+      } else if (data is Map<String, dynamic>) {
+        // API returned a full response object
+        return LoginResponse.fromJson(data);
+      } else {
+        throw ApiException('Invalid response format', response.statusCode);
+      }
     } else {
       final error = ErrorResponse.fromJson(jsonDecode(response.body));
       throw ApiException(error.message, response.statusCode);
