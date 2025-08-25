@@ -4,15 +4,21 @@ import 'package:provider/provider.dart';
 import 'models/api_models.dart';
 import 'providers/app_provider.dart';
 
+// This main() function is only for standalone testing
 void main() {
   runApp(
     ChangeNotifierProvider(
       create: (context) => AppProvider()..initializeAuth(),
-      child: OurDoctors(),
+      child: MaterialApp(
+        title: 'Care Track',
+        home: OurDoctors(),
+        debugShowCheckedModeBanner: false,
+      ),
     ),
   );
 }
 
+// This is the widget that should be used for navigation
 class OurDoctors extends StatefulWidget {
   OurDoctors({super.key});
 
@@ -33,13 +39,37 @@ class _OurDoctorsState extends State<OurDoctors> {
   Future<void> _loadDoctors() async {
     try {
       final provider = Provider.of<AppProvider>(context, listen: false);
-      final loadedDoctors = await provider.searchDoctors(
-        city: 'CAIRO', 
-        speciality: 'CARDIOLOGY',
-        size: 20,
-      );
+      
+      // Try multiple searches to get a variety of doctors
+      List<DoctorMainView> allDoctors = [];
+      
+      final cities = ['CAIRO', 'GIZA', 'ALEXANDRIA'];
+      final specialties = ['CARDIOLOGY', 'DERMATOLOGY', 'NEUROLOGY', 'ORTHOPEDICS'];
+      
+      for (final city in cities) {
+        for (final specialty in specialties) {
+          try {
+            final doctors = await provider.searchDoctors(
+              city: city,
+              speciality: specialty,
+              size: 10,
+            );
+            allDoctors.addAll(doctors);
+          } catch (e) {
+            // Continue to next search if one fails
+            print('Search failed for $city - $specialty: $e');
+          }
+        }
+      }
+      
+      // Remove duplicates based on doctor ID
+      final uniqueDoctors = <int, DoctorMainView>{};
+      for (final doctor in allDoctors) {
+        uniqueDoctors[doctor.id] = doctor;
+      }
+      
       setState(() {
-        doctors = loadedDoctors;
+        doctors = uniqueDoctors.values.toList();
         isLoading = false;
       });
     } catch (e) {
