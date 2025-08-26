@@ -22,8 +22,11 @@ class _OurDoctorsState extends State<OurDoctors> {
   }
 
   Future<void> _loadDoctors() async {
+    print('_loadDoctors called'); // Debug
     try {
       final provider = Provider.of<AppProvider>(context, listen: false);
+      print('Provider obtained: $provider'); // Debug
+      print('Provider isLoggedIn: ${provider.isLoggedIn}'); // Debug
       
       // Use actual enum values from the API spec - search major cities first
       List<DoctorMainView> allDoctors = [];
@@ -31,21 +34,27 @@ class _OurDoctorsState extends State<OurDoctors> {
       final majorCities = ['CAIRO', 'GIZA', 'ALEXANDRIA']; // Start with major cities
       final allSpecialties = ['CARDIOLOGY', 'DERMATOLOGY', 'NEUROLOGY', 'ORTHOPEDICS', 'OPHTHALMOLOGY', 'OTOLARYNGOLOGY'];
       
+      print('Starting doctor search...'); // Debug
       // Search major cities across all specialties first
       for (final city in majorCities) {
         for (final specialty in allSpecialties) {
           try {
+            print('Searching $city - $specialty'); // Debug
             final doctors = await provider.searchDoctors(
               city: city,
               speciality: specialty,
               size: 10,
             );
+            print('Found ${doctors.length} doctors for $city - $specialty'); // Debug
             allDoctors.addAll(doctors);
           } catch (e) {
+            print('Search failed for $city - $specialty: $e'); // Debug
             // Continue to next search if one fails
           }
         }
       }
+      
+      print('Total doctors found: ${allDoctors.length}'); // Debug
       
       // If we don't have enough doctors, try other cities
       if (allDoctors.length < 10) {
@@ -74,10 +83,14 @@ class _OurDoctorsState extends State<OurDoctors> {
         uniqueDoctors[doctor.id] = doctor;
       }
       
+      print('Unique doctors: ${uniqueDoctors.length}'); // Debug
+      
       setState(() {
         doctors = uniqueDoctors.values.toList();
         isLoading = false;
       });
+      
+      print('Doctors set in state: ${doctors.length}'); // Debug
     } catch (e) {
       print('Error loading doctors: $e');
       setState(() {

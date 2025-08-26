@@ -3,6 +3,9 @@ import 'package:care_track/home_user.dart';
 import 'package:care_track/home_dr.dart';
 import 'package:care_track/User_login.dart';
 import 'package:care_track/doctor_login.dart';
+import 'package:care_track/our_doctors.dart';
+import 'package:care_track/profile.dart';
+import 'package:care_track/user_appo.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
@@ -18,7 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => AppProvider(),
+      create: (context) => AppProvider()..initializeAuth(),
       child: Consumer<AppProvider>(
         builder: (context, appProvider, child) {
           return MaterialApp(
@@ -30,6 +33,9 @@ class MyApp extends StatelessWidget {
               '/login/user': (context) => const UserLogin(),
               '/login/doctor': (context) => const DoctorLogin(),
               '/home': (context) => _getHomeScreen(appProvider),
+              '/doctors': (context) => OurDoctors(),
+              '/profile': (context) => const Profile(),
+              '/appointments': (context) => UserAppo(),
             },
           );
         },
