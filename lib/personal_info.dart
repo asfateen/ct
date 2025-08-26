@@ -1,10 +1,16 @@
 import 'package:care_track/profile.dart';
 import 'package:flutter/material.dart';
 
+// This main() function is only for standalone testing
 void main() {
-  runApp(const PersonalInfo());
+  runApp(MaterialApp(
+    title: 'Care Track',
+    home: const PersonalInfo(),
+    debugShowCheckedModeBanner: false,
+  ));
 }
 
+// This is the widget that should be used for navigation
 class PersonalInfo extends StatelessWidget {
   const PersonalInfo({super.key});
 

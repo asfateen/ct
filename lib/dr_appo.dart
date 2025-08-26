@@ -5,15 +5,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'providers/app_provider.dart';
 
+// This main() function is only for standalone testing
 void main() {
   runApp(
     ChangeNotifierProvider(
       create: (context) => AppProvider()..initializeAuth(),
-      child: DrAppo(),
+      child: MaterialApp(
+        title: 'Care Track',
+        home: DrAppo(),
+        debugShowCheckedModeBanner: false,
+      ),
     ),
   );
 }
 
+// This is the widget that should be used for navigation
 class DrAppo extends StatelessWidget {
   DrAppo({super.key});
 

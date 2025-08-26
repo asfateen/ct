@@ -42,9 +42,19 @@ class _UserLoginState extends State<UserLogin> {
       );
 
       if (success && mounted) {
+        // Navigate based on user type
+        final userType = appProvider.userType;
+        Widget targetScreen;
+        
+        if (userType == 'doctor') {
+          targetScreen = HomeDr();
+        } else {
+          targetScreen = const HomeUser();
+        }
+        
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
+          MaterialPageRoute(builder: (context) => targetScreen),
         );
       } else if (mounted) {
         _showError('Login failed', 'Please check your credentials and internet connection');

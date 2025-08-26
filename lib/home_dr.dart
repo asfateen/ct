@@ -1,10 +1,16 @@
 import 'package:care_track/dr_appo.dart';
 import 'package:flutter/material.dart';
 
+// This main() function is only for standalone testing
 void main() {
-  runApp(HomeDr());
+  runApp(MaterialApp(
+    title: 'Care Track',
+    home: HomeDr(),
+    debugShowCheckedModeBanner: false,
+  ));
 }
 
+// This is the widget that should be used for navigation
 class HomeDr extends StatelessWidget {
   HomeDr({super.key});
 

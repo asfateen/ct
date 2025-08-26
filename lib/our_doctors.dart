@@ -40,14 +40,15 @@ class _OurDoctorsState extends State<OurDoctors> {
     try {
       final provider = Provider.of<AppProvider>(context, listen: false);
       
-      // Try multiple searches to get a variety of doctors
+      // Use actual enum values from the API spec - search major cities first
       List<DoctorMainView> allDoctors = [];
       
-      final cities = ['CAIRO', 'GIZA', 'ALEXANDRIA'];
-      final specialties = ['CARDIOLOGY', 'DERMATOLOGY', 'NEUROLOGY', 'ORTHOPEDICS'];
+      final majorCities = ['CAIRO', 'GIZA', 'ALEXANDRIA']; // Start with major cities
+      final allSpecialties = ['CARDIOLOGY', 'DERMATOLOGY', 'NEUROLOGY', 'ORTHOPEDICS', 'OPHTHALMOLOGY', 'OTOLARYNGOLOGY'];
       
-      for (final city in cities) {
-        for (final specialty in specialties) {
+      // Search major cities across all specialties first
+      for (final city in majorCities) {
+        for (final specialty in allSpecialties) {
           try {
             final doctors = await provider.searchDoctors(
               city: city,
@@ -57,8 +58,28 @@ class _OurDoctorsState extends State<OurDoctors> {
             allDoctors.addAll(doctors);
           } catch (e) {
             // Continue to next search if one fails
-            print('Search failed for $city - $specialty: $e');
           }
+        }
+      }
+      
+      // If we don't have enough doctors, try other cities
+      if (allDoctors.length < 10) {
+        final otherCities = ['LUXOR', 'ASWAN', 'PORT_SAID', 'SUEZ', 'ISMAILIA'];
+        for (final city in otherCities) {
+          for (final specialty in allSpecialties) {
+            try {
+              final doctors = await provider.searchDoctors(
+                city: city,
+                speciality: specialty,
+                size: 5,
+              );
+              allDoctors.addAll(doctors);
+              if (allDoctors.length > 20) break; // Stop if we have enough
+            } catch (e) {
+              // Continue to next search if one fails
+            }
+          }
+          if (allDoctors.length > 20) break; // Stop if we have enough
         }
       }
       
