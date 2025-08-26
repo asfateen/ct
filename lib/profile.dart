@@ -6,21 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'providers/app_provider.dart';
 
-// This main() function is only for standalone testing
-void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => AppProvider()..initializeAuth(),
-      child: MaterialApp(
-        title: 'Care Track',
-        home: const Profile(),
-        debugShowCheckedModeBanner: false,
-      ),
-    ),
-  );
-}
-
-// This is the widget that should be used for navigation
 class Profile extends StatelessWidget {
   const Profile({super.key});
 

@@ -6,10 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/app_provider.dart';
 
-void main() {
-  runApp(const UserLogin());
-}
-
 class UserLogin extends StatefulWidget {
   const UserLogin({super.key});
 
@@ -42,20 +38,8 @@ class _UserLoginState extends State<UserLogin> {
       );
 
       if (success && mounted) {
-        // Navigate based on user type
-        final userType = appProvider.userType;
-        Widget targetScreen;
-        
-        if (userType == 'doctor') {
-          targetScreen = HomeDr();
-        } else {
-          targetScreen = const HomeUser();
-        }
-        
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => targetScreen),
-        );
+        // Use the main app navigation instead of direct widget navigation
+        Navigator.pushReplacementNamed(context, '/home');
       } else if (mounted) {
         _showError('Login failed', 'Please check your credentials and internet connection');
       }

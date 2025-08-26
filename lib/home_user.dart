@@ -8,21 +8,6 @@ import 'package:provider/provider.dart';
 import 'models/api_models.dart';
 import 'providers/app_provider.dart';
 
-// This main() function is only for standalone testing
-void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => AppProvider()..initializeAuth(),
-      child: MaterialApp(
-        title: 'Care Track',
-        home: const HomeUser(),
-        debugShowCheckedModeBanner: false,
-      ),
-    ),
-  );
-}
-
-// This is the widget that should be used for navigation
 class HomeUser extends StatelessWidget {
   const HomeUser({super.key});
 

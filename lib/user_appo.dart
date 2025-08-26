@@ -3,21 +3,6 @@ import 'package:provider/provider.dart';
 import 'providers/app_provider.dart';
 import 'models/api_models.dart';
 
-// This main() function is only for standalone testing
-void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => AppProvider()..initializeAuth(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Care Track',
-        home: UserAppo(),
-      ),
-    ),
-  );
-}
-
-// This is the widget that should be used for navigation
 class UserAppo extends StatefulWidget {
   UserAppo({super.key});
 

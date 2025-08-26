@@ -203,21 +203,6 @@ class MedicalRecordPage extends StatelessWidget {
   }
 }
 
-// This main() function is only for standalone testing
-void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => AppProvider()..initializeAuth(),
-      child: MaterialApp(
-        title: 'Care Track',
-        home: const MedicalRecordApp(),
-        debugShowCheckedModeBanner: false,
-      ),
-    ),
-  );
-}
-
-// This is the widget that should be used for navigation
 class MedicalRecordApp extends StatelessWidget {
   const MedicalRecordApp({super.key});
 

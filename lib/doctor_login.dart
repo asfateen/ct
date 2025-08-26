@@ -5,10 +5,6 @@ import 'doctor_signup.dart';
 import 'home_dr.dart';
 import 'providers/app_provider.dart';
 
-void main() {
-  runApp(const DoctorLogin());
-}
-
 class DoctorLogin extends StatefulWidget {
   const DoctorLogin({super.key});
 
@@ -37,10 +33,7 @@ class _DoctorLoginState extends State<DoctorLogin> {
       );
 
       if (success && mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomeDr()),
-        );
+        Navigator.pushReplacementNamed(context, '/home');
       } else if (mounted) {
         _showError('Login failed', 'Invalid email or password');
       }

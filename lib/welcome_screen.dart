@@ -1,5 +1,3 @@
-import 'package:care_track/User_login.dart';
-import 'package:care_track/doctor_login.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -53,10 +51,7 @@ class WelcomeScreen extends StatelessWidget {
                     foregroundColor: Colors.white,
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const UserLogin()),
-                    );
+                    Navigator.pushNamed(context, '/login/user');
                   },
                   child: Text(
                     'Patient',
@@ -74,10 +69,7 @@ class WelcomeScreen extends StatelessWidget {
                     foregroundColor: Colors.white,
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const DoctorLogin()),
-                    );
+                    Navigator.pushNamed(context, '/login/doctor');
                   },
                   child: Text(
                     'Doctor',

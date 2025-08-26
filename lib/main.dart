@@ -1,6 +1,8 @@
 import 'package:care_track/welcome_screen.dart';
 import 'package:care_track/home_user.dart';
 import 'package:care_track/home_dr.dart';
+import 'package:care_track/User_login.dart';
+import 'package:care_track/doctor_login.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
@@ -25,6 +27,8 @@ class MyApp extends StatelessWidget {
             routes: {
               '/': (context) => const SplashScreen(),
               '/welcome': (context) => const WelcomeScreen(),
+              '/login/user': (context) => const UserLogin(),
+              '/login/doctor': (context) => const DoctorLogin(),
               '/home': (context) => _getHomeScreen(appProvider),
             },
           );
@@ -35,7 +39,7 @@ class MyApp extends StatelessWidget {
 
   Widget _getHomeScreen(AppProvider appProvider) {
     if (appProvider.userType == 'patient') {
-      return const HomePage(); // The actual home page from home_user.dart
+      return const HomeUser(); // The actual home page from home_user.dart
     } else if (appProvider.userType == 'doctor') {
       return HomeDr();
     } else {
