@@ -1,5 +1,8 @@
 import 'package:care_track/dr_details.dart';
+import 'package:care_track/our_doctors.dart';
+import 'package:care_track/profile.dart';
 import 'package:care_track/search.dart' as search_lib;
+import 'package:care_track/user_appo.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'models/api_models.dart';
@@ -85,7 +88,10 @@ class _HomePageState extends State<HomePage> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, '/doctors');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => OurDoctors()),
+                    );
                   },
                   child: Container(
                     width: double.infinity,
@@ -201,7 +207,10 @@ class _HomePageState extends State<HomePage> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, '/doctors');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => OurDoctors()),
+                    );
                   },
                   child: const Text(
                     'See All',
@@ -266,13 +275,19 @@ class _HomePageState extends State<HomePage> {
                 size: 28,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, '/appointments');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => UserAppo()),
+                );
               },
             ),
             IconButton(
               icon: const Icon(Icons.person, color: Colors.grey, size: 28),
               onPressed: () {
-                Navigator.pushNamed(context, '/profile');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Profile()),
+                );
               },
             ),
           ],
